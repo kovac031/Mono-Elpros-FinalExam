@@ -1,0 +1,119 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<PlayPal.MVC.Models.RentedBoardGameView.RentedBoardGameListView>
+
+@{
+    ViewBag.Title = "RentedBoardGameList";
+}
+
+<h2>Rented Board Games</h2>
+
+<p>
+
+    @using (Html.BeginForm("RentedBoardGameList", "RentedBoardGame", FormMethod.Get))
+    {
+
+        @Html.TextBox("search") <input type="submit" value="Search" />
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Game Title", "RentedBoardGameList", new { sortBy = ViewBag.SortByTitle, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Username", "RentedBoardGameList", new { sortBy = ViewBag.SortByUsername, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Date Rented", "RentedBoardGameList", new { sortBy = ViewBag.SortByDateRented, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Due Date", "RentedBoardGameList", new { sortBy = ViewBag.SortByDueDate, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Date Returned", "RentedBoardGameList", new { sortBy = ViewBag.SortByDateReturned, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Status", "RentedBoardGameList", new { sortBy = ViewBag.SortByStatus, search = Request.QueryString["search"] })
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BoardGameTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentedByUsername)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateRented)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateReturned)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+            {
+
+
+                <td>
+                    @if (item.Status)
+                    {
+                        @Html.ActionLink("Return", "Return", new { id = item.Id })
+                    }
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, pageNumber => Url.Action("RentedBoardGameList", new { pageNumber, search = Request.QueryString["search"], sortBy = Request["sortBy"] }),
+    new PagedListRenderOptions()
+    {
+        Display = PagedListDisplayMode.IfNeeded,
+        DisplayPageCountAndCurrentLocation = false,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        UlElementClasses = new[] { "custom-pager" }
+    })
+
+
+<style>
+    .custom-pager li a {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .custom-pager {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        gap: 0.2rem;
+    }
+</style>

@@ -1,0 +1,100 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<PlayPal.MVC.Models.CoreUserView>
+
+@{
+    ViewBag.Title = "FindAsync";
+}
+
+<h2>All users</h2>
+
+@using (Html.BeginForm("FindAsync", "User", FormMethod.Get))
+{
+    <div class="form-group">
+        <input type="text" name="searchString" placeholder="Search" value="@Request.QueryString["searchString"]" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Username", "FindAsync", new { sortBy = ViewBag.SortByUsername, sortOrder = ViewBag.NextSortOrder })
+            </th>
+            <th>
+                @Html.ActionLink("Email", "FindAsync", new { sortBy = ViewBag.SortByEmail, sortOrder = ViewBag.NextSortOrder })
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Username)</td>
+                <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='/User/PutAsync/@item.Id'">Edit</button>
+                    <button type="button" class="btn btn-info" onclick="window.location.href='/User/GetByIdAsync/@item.Id'">Details</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete('@item.Id')">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("FindAsync", new
+{
+    pageNumber = page,
+    sortBy = Request.QueryString["sortBy"],
+    sortOrder = ViewBag.CurrentSortOrder,
+    searchString = Request.QueryString["searchString"]
+}), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    UlElementClasses = new[] { "custom-pager" }
+
+})
+</div>
+
+<script>
+    function confirmDelete(id) {
+        if (confirm("Are you sure you want to delete this item?")) {
+            window.location.href = "/User/DeactivateAsync/" + id;
+        }
+    }
+
+    function clearHireDateFilter() {
+        document.getElementsByName("hireDate")[0].value = "";
+    }
+</script>
+
+<style>
+    .custom-pager li a {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .custom-pager {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        gap: 0.2rem;
+    }
+</style>
+

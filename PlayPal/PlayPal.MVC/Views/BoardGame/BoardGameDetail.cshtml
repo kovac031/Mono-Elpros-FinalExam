@@ -1,0 +1,85 @@
+﻿@model PlayPal.MVC.Models.BoardGameDetailView
+
+@{
+    ViewBag.Title = "BoardGameDetail";
+}
+
+<h2>Board Game Detail</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+
+@{
+    var id = Model.Id;
+}
+@if (Request.IsAuthenticated && User.IsInRole("User"))
+{
+    <div id="partialReview">
+        <h4>Rate this Game</h4>
+        @Html.Partial("AddNewReviewAsyncPARTIAL", new PlayPal.MVC.Models.ReviewVIEW())
+    </div>
+}
+<div id="partialReview2">
+    @Html.Partial("GetAllReviewsAsyncPARTIAL", Model.Reviews)
+</div>
+
+@section Scripts {
+    <script>
+        var id = "@Html.Raw(Model.Id)";
+        $('#partialReview').load("@Url.Action("AddNewReviewAsync", "Review", new { id = id })");
+        $('#partialReview2').load('@Url.Action("GetAllReviewsPartialAsync", "Review")');
+    </script>
+}
+
+<p>
+    @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    }
+
+    @Html.ActionLink("Back to Home Page", "BoardGameList")
+</p>
+

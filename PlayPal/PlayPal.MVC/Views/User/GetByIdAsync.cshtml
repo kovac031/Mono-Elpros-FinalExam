@@ -1,0 +1,78 @@
+﻿@model PlayPal.MVC.Models.CoreUserView
+
+@{
+    ViewBag.Title = "GetByIdAsync";
+}
+
+<h2>User details</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DOB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DOB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+    </dl>
+</div>
+@if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+{
+    <p>
+        @Html.ActionLink("Update Role", "PutAsync", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "FindAsync")
+    </p>
+}
+
+
+@if (Request.IsAuthenticated && User.IsInRole("User"))
+{
+    <p>
+        @Html.ActionLink("Back to List", "FindAsync")
+        @Html.ActionLink("Update Personal Info", "UpdatePersonalInfoAsync", new { id = Model.Id })
+    </p>
+}
+

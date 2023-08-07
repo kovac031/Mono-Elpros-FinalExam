@@ -1,0 +1,112 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<PlayPal.MVC.Models.NotificationVIEW>
+
+@{
+    ViewBag.Title = "GetAllNotificationsAsync";
+}
+
+<h2>Notifications</h2>
+
+<p>
+    @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+    {
+        <button class="btn btn-primary" onclick="window.location.href='@Url.Action("AddNewNotificationAsync")'">Create New</button>
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().Message)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DateCreated)
+        </th>
+        @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.First().DateUpdated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.First().IsActive)
+            </th>
+        }
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Message)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateUpdated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+            }
+            <td>
+                @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+                {
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='/Notification/EditNotificationAsync/@item.Id'">Edit</button>
+                    <button type="button" class="btn btn-info" onclick="window.location.href='/Notification/GetOneNotificationAsync/@item.Id'">Details</button>
+                    @*<button type="button" class="btn btn-danger" onclick="window.location.href='/Notification/HideDeleteNotificationAsync/@item.Id'">Delete</button>*@
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("User"))
+                {
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='/Notification/EditNotificationAsync/@item.Id'">Is Read</button>
+
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, pageNumber => Url.Action("GetAllNotificationsAsync", new { pageNumber }),
+    new PagedListRenderOptions()
+    {
+        Display = PagedListDisplayMode.IfNeeded,
+        DisplayPageCountAndCurrentLocation = false,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        UlElementClasses = new[] { "custom-pager" }
+    })
+
+<style>
+    .custom-pager li a {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .custom-pager {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        gap: 0.2rem;
+    }
+</style>

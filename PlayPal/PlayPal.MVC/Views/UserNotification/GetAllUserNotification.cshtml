@@ -1,0 +1,88 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<PlayPal.MVC.Models.UserNotificationView>
+
+@{
+    ViewBag.Title = "GetAllUserNotification";
+}
+
+<h2>Notifications</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.First().NotificationTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().NotificationMessage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First().IsRead)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NotificationTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NotificationMessage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRead)
+            </td>
+            @if (item.IsRead == false)
+            {
+                <td>
+                    @Html.ActionLink("Mark as Read", "Read", new { id = item.Id })
+                </td>
+            }
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, pageNumber => Url.Action("BoardGameList", new { pageNumber}),
+    new PagedListRenderOptions()
+    {
+        Display = PagedListDisplayMode.IfNeeded,
+        DisplayPageCountAndCurrentLocation = false,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        UlElementClasses = new[] { "custom-pager" }
+    })
+
+<style>
+    .custom-pager li a {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .custom-pager {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        gap: 0.2rem;
+    }
+</style>
+

@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A5B45B65-306A-482C-9EF6-F43AE2CBD0D1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PlayPal.Service.Common</RootNamespace>
+    <AssemblyName>PlayPal.Service.Common</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="INotificationService.cs" />
+    <Compile Include="IRoleService.cs" />
+    <Compile Include="IReviewService.cs" />
+    <Compile Include="IUserNotificationService.cs" />
+    <Compile Include="IUserService.cs" />
+    <Compile Include="ICoreUserService.cs" />
+    <Compile Include="IUsersRoleProvider.cs" />
+    <Compile Include="IBoardGameService.cs" />
+    <Compile Include="IRentedBoardGameService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PlayPal.Common\PlayPal.Common.csproj">
+      <Project>{959693e4-56bf-4590-b078-5246927f6a74}</Project>
+      <Name>PlayPal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.DAL\PlayPal.DAL.csproj">
+      <Project>{820d4434-59ee-4099-8d07-6f1bd63fd581}</Project>
+      <Name>PlayPal.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.ModelDTO.Common\PlayPal.Model.Common.csproj">
+      <Project>{eb60f1c1-201f-4682-88e0-32f76afc34b4}</Project>
+      <Name>PlayPal.Model.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.ModelDTO\PlayPal.Model.csproj">
+      <Project>{f9d90784-0d05-408f-a58b-7754e8c8020e}</Project>
+      <Name>PlayPal.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.Repository.Common\PlayPal.Repository.Common.csproj">
+      <Project>{4eea75a9-d830-4405-8dfb-10d09013457a}</Project>
+      <Name>PlayPal.Repository.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.Repository\PlayPal.Repository.csproj">
+      <Project>{1a4a7d80-f509-4f88-9128-2f5400037fe7}</Project>
+      <Name>PlayPal.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\PagedList.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ICategoryService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PlayPal.Common\PlayPal.Common.csproj">
+      <Project>{959693e4-56bf-4590-b078-5246927f6a74}</Project>
+      <Name>PlayPal.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.DAL\PlayPal.DAL.csproj">
+      <Project>{820d4434-59ee-4099-8d07-6f1bd63fd581}</Project>
+      <Name>PlayPal.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlayPal.ModelDTO\PlayPal.Model.csproj">
+      <Project>{f9d90784-0d05-408f-a58b-7754e8c8020e}</Project>
+      <Name>PlayPal.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

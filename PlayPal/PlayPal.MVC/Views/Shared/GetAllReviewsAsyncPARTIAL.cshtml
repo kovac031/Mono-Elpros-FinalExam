@@ -1,0 +1,52 @@
+﻿@model IEnumerable<PlayPal.MVC.Models.ReviewVIEW>
+
+@{
+    string truncateComment(PlayPal.MVC.Models.ReviewVIEW review)
+    {
+        var comment = review.Comment;
+        if (string.IsNullOrEmpty(comment))
+        {
+            return string.Empty;
+        }
+
+        return comment.Length <= 150 ? comment : comment.Substring(0, 150) + "...";
+    }
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.Raw(item.Comment.Length <= 150 ? item.Comment : item.Comment.Substring(0, 150) + "... " + Html.ActionLink("View More", "GetOneReviewAsync", "Review", new RouteValueDictionary { { "id", item.Id } }, null).ToHtmlString())
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+
+            <td>
+                @Html.ActionLink("View More", "GetOneReviewAsync", "Review", new RouteValueDictionary { {"id", item.Id } }, null)
+            </td>
+        </tr>
+    }
+
+</table>

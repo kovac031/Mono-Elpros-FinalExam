@@ -1,0 +1,41 @@
+﻿@model PlayPal.MVC.Models.CategoryView
+
+@{
+    ViewBag.Title = "GetOneCategoryAsync";
+}
+
+<h2>GetOneCategoryAsync</h2>
+
+<div>
+    <h4>CategoryView</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditCategoryAsync", new { id = Model.Id }) |
+    @Html.ActionLink("Delete", "HideDeleteCategoryAsync", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "GetAllCategoriesAsync")
+</p>

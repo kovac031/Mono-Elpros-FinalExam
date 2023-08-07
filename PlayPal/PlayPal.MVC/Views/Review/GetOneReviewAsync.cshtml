@@ -1,0 +1,75 @@
+﻿@model PlayPal.MVC.Models.ReviewVIEW
+
+@{
+    ViewBag.Title = "GetOneReviewAsync"; // VIEW za kad se klikne na view more na Reviews, ADMIN moze approve a user edit i delete ako je njegov review
+}
+
+<h2>Review Details</h2>
+
+<div>
+    @*<h4>ReviewVIEW</h4>*@
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rating)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rating)
+        </dd>
+
+    </dl>
+</div>
+
+@if (Request.IsAuthenticated) 
+    {
+        if (User.IsInRole("SYSTEMADMIN")) // provjeri jel admin da mu das approve, ako nije vidi koji user jer ako je autor reviewa daj mu edit i delete
+        {
+            <td>
+                @Html.ActionLink("Approve", "ApproveReviewAsync", new { id = Model.Id }) |
+                @Html.ActionLink("Delete", "HideDeleteReviewAsync", new { id = Model.Id })
+            </td>
+        }
+        else
+        {
+            var userId = "";
+            if (User.Identity is FormsIdentity identity)
+            {
+                using (var db = new PlayPal.DAL.EFContext())
+                {
+                    userId = identity.Ticket.UserData;
+                    var review = db.Review.FirstOrDefault(r => r.Id == Model.Id);
+
+                    if (review.CreatedByUserId == new Guid(userId))
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "EditReviewAsync", new { id = Model.Id })
+                            @Html.ActionLink("Delete", "HideDeleteReviewAsync", new { id = Model.Id })
+                        </td>
+                    }
+                }
+            }
+        }
+    }
+
+
+<p>
+    @Html.ActionLink("Back to List", "GetAllReviewsAsync")
+</p>
+

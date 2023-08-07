@@ -1,0 +1,41 @@
+﻿@model PlayPal.MVC.Models.CoreUserLoginView
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label for="Username" class="control-label col-md-2">@Html.DisplayNameFor(model => model.Username)</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Password" class="control-label col-md-2">@Html.DisplayNameFor(model => model.Password)</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Login" class="btn btn-primary mt-2" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <p class="mt-2">
+        @Html.ActionLink("Don't have an account, register now!", "Signup")
+    </p>
+</div>

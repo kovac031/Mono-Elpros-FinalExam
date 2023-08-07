@@ -1,0 +1,83 @@
+﻿@model PlayPal.MVC.Models.CoreUserView
+
+@{
+    ViewBag.Title = "PutAsync";
+}
+
+<h2>Update users role</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DOB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DOB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        @using (Html.BeginForm("PutAsync", "User", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.SelectedRole, "Role")
+                @Html.DropDownListFor(model => model.SelectedRole, new SelectList(Model.AllRoles, "Id", "Name"), "Select a role", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SelectedRole, "", new { @class = "text-danger" })
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        }
+
+
+
+    </dl>
+</div>
+
+<p>
+       @Html.ActionLink("Back to List", "FindAsync")
+</p>
+

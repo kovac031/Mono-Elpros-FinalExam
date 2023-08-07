@@ -1,0 +1,146 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<PlayPal.MVC.Models.BoardGameListView>
+
+@{
+    ViewBag.Title = "BoardGameList";
+}
+
+<h2>Board Games</h2>
+
+<p>
+    @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+    {
+        <button class="btn btn-primary" onclick="window.location.href='@Url.Action("Create")'">Create New</button>
+    }
+
+
+    @using (Html.BeginForm("BoardGameList", "BoardGame", FormMethod.Get))
+    {
+        <div class="form-group">
+
+            <label for="filterBy">Category:</label><br />
+            <select name="filterBy" class="form-select">
+                <option value="">All</option>
+                @foreach (var item in ViewBag.Categories)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+            @Html.TextBox("search") <input type="submit" value="Search" />
+        </div>
+        <br />
+
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Title", "BoardGameList", new { sortBy = ViewBag.SortByTitle, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Category", "BoardGameList", new { sortBy = ViewBag.SortByCategory, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Rating", "BoardGameList", new { sortBy = ViewBag.SortByRating, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Stock", "BoardGameList", new { sortBy = ViewBag.SortByAvailability, search = Request.QueryString["search"] })
+
+        </th>
+        <th>
+            @Html.ActionLink("Price", "BoardGameList", new { sortBy = ViewBag.SortByPrice, search = Request.QueryString["search"] })
+
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Availability)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            @if (Request.IsAuthenticated && User.IsInRole("SYSTEMADMIN"))
+            {
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Detail", "BoardGameDetail", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            }
+            @if (Request.IsAuthenticated && User.IsInRole("User"))
+            {
+                <td>
+                    @Html.ActionLink("Detail", "BoardGameDetail", new { id = item.Id }) |
+                    @if (item.Availability != "0")
+                    {
+                        @Html.ActionLink("Rent", "Rent", new { id = item.Id })
+                    }
+                </td>
+            }
+            @if (!Request.IsAuthenticated)
+            {
+                <td>
+                    @Html.ActionLink("Rent", "Login", "Account")
+                </td>
+            }
+
+            <td>
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+@Html.PagedListPager(Model, pageNumber => Url.Action("BoardGameList", new { pageNumber, search = Request.QueryString["search"], sortBy = Request["sortBy"] }),
+    new PagedListRenderOptions()
+    {
+        Display = PagedListDisplayMode.IfNeeded,
+        DisplayPageCountAndCurrentLocation = false,
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+        DisplayLinkToLastPage = PagedListDisplayMode.Always,
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+        DisplayLinkToNextPage = PagedListDisplayMode.Always,
+        UlElementClasses = new[] { "custom-pager" }
+    })
+
+<style>
+    .custom-pager li a {
+        background-color: #007bff;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 14px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .custom-pager {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        gap: 0.2rem;
+    }
+</style>
