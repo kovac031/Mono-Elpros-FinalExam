@@ -38,7 +38,7 @@
 - form based authentication, role based authorization, retrieving authenticated user data for mapping
 
 ## My projects based on this
-Due to me not having meaningful coding experience prior to this intensive course, a lot of knowledge didn't really stick, so practiced some more:
+Due to me not having meaningful coding experience prior to this intensive course, a lot of knowledge didn't really stick, so I practiced some more:
 
 - [PlayPalMini - MVC](https://github.com/kovac031/PlayPalMini-MVC)
 > A mini version of PlayPal, also as MVC app, so I can do it all by myself and make sure I learned it all!
