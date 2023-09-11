@@ -13,7 +13,6 @@
 - [Barbara](https://github.com/BarbaraFriscic)
 - [Luka](https://github.com/TalikTom)
 - [Nikola](https://github.com/AntovskiN)
-- [teacher Jelena](https://github.com/jelenatufekovic)
 
 ## Learning points:
 - planning the project
